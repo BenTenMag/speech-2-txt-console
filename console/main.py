@@ -27,10 +27,6 @@ samples = OrderedDict([
     (speech_sdk, [
         speech_sdk.speech_recognize_once_from_mic,
         speech_sdk.speech_recognize_once_from_file,
-        speech_sdk.speech_recognize_once_from_file_with_customized_model,
-        speech_sdk.speech_recognize_once_from_file_with_custom_endpoint_parameters,
-        speech_sdk.speech_recognize_async_from_file,
-        speech_sdk.speech_recognize_continuous_from_file,
         speech_sdk.speech_recognition_with_pull_stream,
         speech_sdk.speech_recognition_with_push_stream
     ])
