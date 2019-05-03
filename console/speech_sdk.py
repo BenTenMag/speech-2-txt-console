@@ -212,3 +212,28 @@ def speech_recognition_with_push_stream():
         speech_recognizer.stop_continuous_recognition()
         wav_fh.close()
         stream.close()
+
+def speech_recognize_continuous_from_mic():
+    # Create unique file name to output recognized audio_config
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
+    speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config)
+    #f = open("output/audio"+ timestr +".txt","x")
+
+    speech_recognizer.session_started.connect(lambda evt: print('SESSION STARTED: {}'.format(evt)))
+    speech_recognizer.session_stopped.connect(lambda evt: print('\nSESSION STOPPED {}'.format(evt)))
+    speech_recognizer.recognized.connect(lambda evt: print('\n{}'.format(evt.result.text)))
+
+    # TODO: Add output to filename
+    # similar to this f.write(speech_recognizer.result.text)
+
+    print('Audio transcription will continue until there is a 10\n\n')
+    speech_recognizer.start_continuous_recognition()
+    # Ends transcription if there is a 10 second pause
+    time.sleep(10)
+
+    speech_recognizer.stop_continuous_recognition()
+    #f.close()
+    speech_recognizer.session_started.disconnect_all()
+    speech_recognizer.recognized.disconnect_all()
+    speech_recognizer.session_stopped.disconnect_all()
