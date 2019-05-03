@@ -38,7 +38,6 @@ speech_key, service_region = "698f7e6ac25f422383ed980a6c763d36", "eastus"
 # kHz).
 auctionfilename = "auction.wav"
 
-
 def speech_recognize_once_from_mic():
     """performs one-shot speech recognition from the default microphone"""
     # <SpeechRecognitionWithMicrophone>
@@ -55,9 +54,14 @@ def speech_recognize_once_from_mic():
     # For long-running multi-utterance recognition, use start_continuous_recognition() instead.
     result = speech_recognizer.recognize_once()
 
+    # Create unique file name to output recognized audio_config
+    timestr = time.strftime("%Y%m%d-%H%M%S")
     # Check the result
     if result.reason == speechsdk.ResultReason.RecognizedSpeech:
         print("Recognized: {}".format(result.text))
+        f = open("output/audio"+ timestr +".txt","x")
+        f.write(result.text)
+        f.close()
     elif result.reason == speechsdk.ResultReason.NoMatch:
         print("No speech could be recognized")
     elif result.reason == speechsdk.ResultReason.Canceled:
